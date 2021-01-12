@@ -25,6 +25,10 @@ CLASSES = ["background", "aeroplane", "bicycle", "bird", "boat",
 #generatin colored boundry 
 COLORS = np.random.uniform(0,255,size=(len(CLASSES),3))
 
+
+print("Loading model...")
+net = cv2.dnn.readNetFromCaffe(args["prototxt"],args["model"])
+#net = cv2.dnn.readNetFromTensorflow(args["model"]) #incase for tensorflow model
 #Initilze Video stream for camera
 print("Starting Video Stream...")
 #opening camera
@@ -42,6 +46,23 @@ while True:
     #Using blob(datatype), it basically stores binary data, so like images can be saved too
     (h,w) = frame.shape[:2]
     blob = cv2.dnn.blobFromImage(cv2.resize(frame,(300,300)),0.007843, (300, 300), 127.5) #grabbing frame and converting it into blob
+
+    #passing the blob through the model
+    net.setInput(blob)
+    detections = net.forward()
+
+    #detection loop
+    for i in np.arange(0,detections.shape[2]):
+        confidence = detections[0,0,i,2]  #probability = confidence
+
+        #making sure that the detection confidednce is greater than min
+        if confidence > args["confidence"]:
+            #creating boundary of the box
+            idx = int(detections[0,0,i,1])
+            box = detections[0,0,i,3:7] * np.array([w,h,w,h])
+            (startX,startY,endX,endY) = box.astype("int")
+            
+
 
 
 
