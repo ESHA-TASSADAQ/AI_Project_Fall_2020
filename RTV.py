@@ -17,10 +17,10 @@ args = vars(aParse.parse_args())
 
 
 #initialize class 
-CLASSES = ["background", "aeroplane", "bicycle", "bird", "boat",
-	"bottle", "bus", "car", "cat", "chair", "cow", "diningtable",
+CLASSES = ["background","Phone", "aeroplane", "bicycle", "bird", "boat",
+	"bottle", "bus", "car", "cat","tvmonitor", "chair", "cow", "diningtable",
 	"dog", "horse", "motorbike", "person", "pottedplant", "sheep",
-	"sofa", "train", "tvmonitor","Phone"]
+	"sofa", "train"]
 
 #generatin colored boundry 
 COLORS = np.random.uniform(0,255,size=(len(CLASSES),3))
@@ -61,7 +61,29 @@ while True:
             idx = int(detections[0,0,i,1])
             box = detections[0,0,i,3:7] * np.array([w,h,w,h])
             (startX,startY,endX,endY) = box.astype("int")
-            
+
+            #BOx drawing
+            label = "{}: {:.2f}%".format(CLASSES[idx],confidence * 100)
+            cv2.rectangle(frame, (startX,startY),(endX,endY),COLORS[idx],2)
+            y = startY - 15 if startY - 15 > 15 else startY + 15
+            cv2.putText(frame.label,(startX,y),cv2.FONT_HERSHEY_COMPLEX,0.5,COLORS[idx],2)
+
+    #Output 
+    cv2.imshow("frame",frame)
+    key = cv2.waitKey(1) & 0xFF
+
+    #break from q
+    if key == ord("q"):
+        break
+
+    fps.update()
+
+fps.stop()
+print("elapsed time: {:.2f}".format(fps.elapsed()))
+print("approx. FPS: {:.2f}".format(fps.fps()))  
+
+cv2.destroyAllWindows()
+vs.stop()
 
 
 
