@@ -47,3 +47,21 @@ while True:
     cv2.imshow("Delta Frame",delta_frame)
     cv2.imshow("Threshold Frame",thresh_frame)
     cv2.imshow("Color Frame",frame) 
+
+    key=cv2.waitKey(1) #Frame will change in 1 millisecond
+
+    if key==ord('q'): #This will break the loop, once the user presses 'q'
+        if status==1:
+            times.append(datetime.now())
+        break
+
+print(status_list)
+print(times) 
+
+for i in range(0,len(times),2):
+    df=df.append({"Start":times[i],"End":times[i+1]},ignore_index=True) #Store time values in a DataFrame
+
+df.to_csv("Times.csv") #This will write the Dataframe to a .csv file
+
+video.release() #This will release the webcam in some milliseconds
+cv2.destroyAllWindows #This will close all the windows
