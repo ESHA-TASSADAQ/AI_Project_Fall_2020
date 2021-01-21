@@ -22,4 +22,27 @@ def getColorName(R,G,B):
             minimum = d
             cname = csv.loc[i,"color_name"]
     return cname
+#function to get x,y coordinates of mouse double click
+def draw_function(event, x,y,flags,param):
+    if event == cv2.EVENT_LBUTTONDBLCLK:
+        global b,g,r,xpos,ypos, clicked
+        clicked = True
+        xpos = x
+        ypos = y
+        b,g,r = img[y,x]
+        b = int(b)
+        g = int(g)
+        r = int(r)
+       
+cv2.namedWindow('image')
+cv2.setMouseCallback('image',draw_function)
+
+while(1):
+
+    cv2.imshow("image",img)
+    if (clicked):
+   
+        #cv2.rectangle(image, startpoint, endpoint, color, thickness)-1 fills entire rectangle 
+        cv2.rectangle(img,(20,20), (750,60), (b,g,r), -1)
+
 
