@@ -16,3 +16,10 @@ p.yaxis.ticker.desired_num_ticks = 1
 
 hover=HoverTool(tooltips=[("Start","@Start_string"),("End","@End_string")])
 p.add_tools(hover) #Turn on hover effect
+
+
+#Set the colours of infobar
+q=p.quad(left="Start",right="End",bottom=0,top=1,color="green",source=cds)
+
+output_file("Graph1.html") #This will save the file as HTML
+show(p)
