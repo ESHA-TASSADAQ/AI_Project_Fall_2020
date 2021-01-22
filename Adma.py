@@ -25,4 +25,21 @@ def wishMe():
         speak("Good Evening User")
 
     speak("I am your Assistant Admaa")
-    
+
+   
+def takeCommand():
+    # takes my command from microphone and gives text
+    r =sr.Recognizer()
+    with sr.Microphone() as source:
+        print("listening...")
+        r.pause_threshold = 1
+        audio = r.listen(source)
+    try:
+        print("recognizing...")
+        query = r.recognize_google(audio, language ='en-in')
+        print("user said : ", query)
+    except Exception as e:
+        print(e)
+        speak("Sorry User, can you repeat that again?")
+        return "None"
+    return query
