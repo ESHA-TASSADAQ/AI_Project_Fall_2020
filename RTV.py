@@ -17,10 +17,10 @@ args = vars(aParse.parse_args())
 
 
 #initialize class 
-CLASSES = ["background","Phone", "aeroplane", "bicycle", "bird", "boat",
-	"bottle", "bus", "car", "cat","tvmonitor", "chair", "cow", "diningtable",
+CLASSES = ["background", "aeroplane", "bicycle", "bird", "boat",
+	"bottle", "bus", "car", "cat", "chair", "cow", "diningtable",
 	"dog", "horse", "motorbike", "person", "pottedplant", "sheep",
-	"sofa", "train"]
+	"sofa", "train", "tvmonitor"]
 
 #generatin colored boundry 
 COLORS = np.random.uniform(0,255,size=(len(CLASSES),3))
@@ -32,7 +32,7 @@ net = cv2.dnn.readNetFromCaffe(args["prototxt"],args["model"])
 #Initilze Video stream for camera
 print("Starting Video Stream...")
 #opening camera
-vs = VideoStream(src=args["Video_source"]).start()
+vs = VideoStream(src=args["video_source"]).start()
 
 time.sleep(1.0)
 fps = FPS().start()
@@ -47,7 +47,7 @@ while True:
     (h,w) = frame.shape[:2]
     blob = cv2.dnn.blobFromImage(cv2.resize(frame,(300,300)),0.007843, (300, 300), 127.5) #grabbing frame and converting it into blob
 
-    #passing the blob through the model
+    #passing the blob through the network
     net.setInput(blob)
     detections = net.forward()
 
@@ -66,15 +66,15 @@ while True:
             label = "{}: {:.2f}%".format(CLASSES[idx],confidence * 100)
             cv2.rectangle(frame, (startX,startY),(endX,endY),COLORS[idx],2)
             y = startY - 15 if startY - 15 > 15 else startY + 15
-            cv2.putText(frame.label,(startX,y),cv2.FONT_HERSHEY_COMPLEX,0.5,COLORS[idx],2)
+            cv2.putText(frame,label,(startX,y),cv2.FONT_HERSHEY_COMPLEX,0.5,COLORS[idx],2)
 
     #Output 
-    cv2.imshow("frame",frame)
+    cv2.imshow("Frame",frame)
     key = cv2.waitKey(1) & 0xFF
 
     #break from q
     if key == ord("q"):
-        break
+        breakpoint
 
     fps.update()
 
@@ -84,9 +84,3 @@ print("approx. FPS: {:.2f}".format(fps.fps()))
 
 cv2.destroyAllWindows()
 vs.stop()
-
-
-
-
-
-
