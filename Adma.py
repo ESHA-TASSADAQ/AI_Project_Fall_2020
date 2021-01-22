@@ -43,3 +43,65 @@ def takeCommand():
         speak("Sorry User, can you repeat that again?")
         return "None"
     return query
+
+if __name__ == "__main__":
+    wishMe()
+    while True:
+        speak("How can i help you?")
+        query = takeCommand().lower()
+        if 'wikipedia' in query:
+                speak("searching in wikipedia")
+                query = query.replace("wikipedia", "")
+                results = wikipedia.summary(query, sentences = 2)
+                speak("According to wikipedia")
+                print(results)
+                speak(results)
+
+        elif 'open youtube' in query:
+            webbrowser.open("youtube.com")
+            speak("youtube is opened")
+        elif 'open google' in query:
+            webbrowser.open("google.com")
+            speak("google is opened")
+        
+        elif 'teacher name' in query:
+            speak("Our teacher name is Sir Rehaan. He is the best AI teacher I ever met.")
+
+        elif 'open gmail' in query:
+            webbrowser.open("gmail.com")
+            speak("gmail is opened")
+        elif 'play music' in query:
+            while True:
+                playsound('song.mp3')
+            if 'pause' in query:
+                break
+        elif 'time' in query:
+            strTime = datetime.datetime.now().strftime("%H:%M:%S")
+            speak(f"the time is {strTime}")
+
+        elif 'open gender and age detection with image 1' in query:
+            speak("Sure! Opening gender and age detection project")
+            os.system('genderage.py --image imranKhan.jpg')
+
+        elif 'open gender and age detection with image 2' in query:
+            speak("Sure! Opening gender and age detection project")  
+            os.system('genderage.py --image sir.jpg')
+
+        elif 'open colour detection' in query:
+            speak("Sure! Opening  detection project")
+            os.system('color_detection.py')
+            
+        elif 'open object detection' in query:
+            speak("Sure! Opening object detection project")
+            os.system('RTV.py --model Model.caffemodel --prototxt ModelDeploy.prototxt.txt')
+            
+        elif 'motion detection' in query:
+            speak("Sure! Opening motion detection project")
+            os.system('plot.py')
+            
+        elif 'stop' in query:
+            speak("see you soon user")
+            exit()
+        else :
+            speak("Sorry can u repeat")
+      
