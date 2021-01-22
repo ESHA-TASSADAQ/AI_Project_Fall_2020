@@ -74,7 +74,7 @@ while True:
 
     #break from q
     if key == ord("q"):
-        breakpoint
+        exit()
 
     fps.update()
 
