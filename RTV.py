@@ -28,7 +28,7 @@ COLORS = np.random.uniform(0,255,size=(len(CLASSES),3))
 
 print("Loading model...")
 net = cv2.dnn.readNetFromCaffe(args["prototxt"],args["model"])
-#net = cv2.dnn.readNetFromTensorflow(args["model"]) #incase for tensorflow model
+#net = cv2.dnn.readNetFromTensorflow(args["prototxt"],args["model"]) #incase for tensorflow model
 #Initilze Video stream for camera
 print("Starting Video Stream...")
 #opening camera
